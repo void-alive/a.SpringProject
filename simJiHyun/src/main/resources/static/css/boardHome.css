@@ -1,0 +1,25 @@
+/*오른쪽 날개*/
+.container2 {
+  border: solid 5px black;
+  border-radius: 10px;
+  height: 700px;
+  width: 60%;
+  padding: 30px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleBox, .dateBox, .writerBox, .contentBox{
+  width: 90%;
+}
+
+.boardTitle, .boardDate, .boardWriter{
+  width: 100%;
+}
+
+.boardContent{
+  width: 100%;
+  height: 500px;
+}

@@ -6,12 +6,13 @@ import lombok.*;
 @Entity
 @Table(name = "spring_member")
 @Getter
-@Setter
 @NoArgsConstructor
 public class SpringMember {
   @Id
-  @Column(name = "member_id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long memberIdx;
+
+  @Column(nullable = false, unique = true, name = "member_id")
   private String memberId;
 
   @Column(nullable = false, name = "member_pass")
@@ -20,14 +21,6 @@ public class SpringMember {
   @Column(nullable = false, name = "member_name")
   private String memberName;
 
-  @Column(nullable = false, name = "member_email")
+  @Column(nullable = false, name = "member_email", unique = true)
   private String memberEmail;
-
-  @Builder
-  public SpringMember(String id, String password, String name, String email) {
-    this.memberId = id;
-    this.memberPass = password;
-    this.memberName = name;
-    this.memberEmail = email;
-  }
 }

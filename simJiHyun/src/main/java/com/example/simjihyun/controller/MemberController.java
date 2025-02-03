@@ -40,7 +40,7 @@ public class MemberController {
       session.setAttribute("memberId", memberId);
       session.setAttribute("memberPass", memberPass);
       System.out.println("로그인 성공");
-      return "redirect:/login/first";
+      return "redirect:/board/home";
     }
 
 //  없다면 "아이디 혹은 비밀번호가 틀렸습니다" 를 출력
@@ -67,6 +67,21 @@ public class MemberController {
   public String signUpProcess(SpringMember member)
           throws Exception {
     memberService.signUp(member);
+    return "redirect:/login/first";
+  }
+
+  //  로그아웃
+  @RequestMapping("/logout")
+  public String logout(HttpServletRequest request) {
+
+//    세션이 있는지 확인
+    HttpSession session = request.getSession();
+//    있다면 세션의 memberId 와 memberPass 값을 지운다
+    session.removeAttribute("memberId");
+    session.removeAttribute("memberPass");
+//    나머지 세션도 다 지운다
+    session.invalidate();
+
     return "redirect:/login/first";
   }
 }

@@ -35,3 +35,4 @@ out/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/static/bootstrap-5.0.2-dist/

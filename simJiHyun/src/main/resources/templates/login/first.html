@@ -13,16 +13,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
-  <link rel="stylesheet" th:href="@{/css/first.css}"/>
-  <link rel="stylesheet" th:href="@{/css/header.css}"/>
+  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+  <link rel="stylesheet" th:href="@{/css/container1.css}"/>
+  <link rel="stylesheet" th:href="@{/css/loginFirst.css}"/>
+  <link rel="stylesheet" th:href="@{/css/container3.css}"/>
   <script>
       $(document).ready(function () {
-          $(".loginButton").on("click", function () {
-              //     1. 아이디와 비밀번호가 db에 있는지 확인
-              //     2. 있으면 로그인 성공, 없다면 로그인 실패
-              //     2-1. 로그인 실패 시 아이디 혹은 비밀번호가 틀렸음을 상기
-
-          });
+          // 버튼
           $(".signUpButton").on("click", function () {
               //     회원가입 창으로 이동
               location.href="/login/signUp";
@@ -31,8 +28,6 @@
   </script>
 </head>
 <body>
-
-<!--<th:block th:replace="~{/layout/header.html :: header}"></th:block>-->
 
 <div class="container">
   <!--메인-->
@@ -69,5 +64,6 @@
     <th:block th:replace="~{/layout/container3.html :: container3}"></th:block>
   </main>
 </div>
+
 </body>
 </html>
