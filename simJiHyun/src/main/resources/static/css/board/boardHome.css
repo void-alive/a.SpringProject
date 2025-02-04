@@ -1,32 +1,66 @@
 /*오른쪽 날개*/
 .container2 {
-  border: solid 5px black;
+  border: solid 5px lightskyblue;
   border-radius: 10px;
   height: 700px;
   width: 60%;
-  padding: 30px 20px 20px 20px;
+  padding: 30px 30px 30px 30px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
+  gap: 10px;
 }
 
-.homeContainer{
-  border: solid 5px black;
-  border-radius: 10px;
-  background-color: lightskyblue;
+.homeContainer {
+  background-color: rgba(135,206,250,75%);
   display: grid;
   grid-template-rows: 1fr 1fr 1fr 3fr;
+  border-radius: 10px;
 }
 
-.titleBox, .dateBox, .writerBox, .contentBox{
+.homeContainer input {
+  background-color: transparent;
+  border: none;
+  color: dimgrey;
+  font-weight: bold;
+}
+
+.homeContainer textarea {
+  background-color: transparent;
+  border: none;
+  color: dimgrey;
+  font-weight: bold;
+  resize: none;
+}
+
+.titleBox, .dateBox, .writerBox, .contentBox {
   width: 100%;
 }
 
-.boardTitle, .boardDate, .boardWriter{
+.boardTitle, .boardDate, .boardWriter {
   width: 100%;
 }
 
-.boardContent{
+.boardContent {
   width: 100%;
   height: 100%;
+}
+
+.buttonBox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonBox button{
+  border: solid 5px lightskyblue;
+  border-radius: 10px;
+  background-color: white;
+  color: dimgrey;
+}
+
+.gamja-flower-regular {
+  font-family: "Gamja Flower", serif;
+  font-weight: 400;
+  font-style: normal;
 }

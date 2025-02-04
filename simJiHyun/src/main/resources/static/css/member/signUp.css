@@ -1,0 +1,54 @@
+/*메인 화면*/
+.container2 {
+    border: solid 5px lightskyblue;
+    border-radius: 10px;
+    height: 700px;
+    width: 60%;
+    padding: 30px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: large;
+    background-color: white;
+    text-align: center;
+}
+
+.container2 label{
+    font-weight: bold;
+}
+
+.container2 input{
+    border: solid 5px lightskyblue;
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+}
+.login{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.idBox, .passBox, .nameBox, .emailBox{
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonBox{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.buttonBox button{
+    border: none;
+    border-radius: 10px;
+    background-color: lightskyblue;
+    padding: 10px;
+    font-weight: bold;
+    color: white;
+}

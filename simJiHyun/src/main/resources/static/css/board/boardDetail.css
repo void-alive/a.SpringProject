@@ -1,25 +1,71 @@
-/*오른쪽 날개*/
-.container2 {
-  border: solid 5px black;
+/*메인*/
+form {
+  border: solid 5px lightskyblue;
   border-radius: 10px;
   height: 700px;
   width: 60%;
-  padding: 30px 20px 20px 20px;
+  padding: 50px 50px 50px 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
 }
 
-.titleBox, .dateBox, .writerBox, .contentBox{
+.container2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.container2 input{
+  border: none;
+}
+
+.container2 textarea{
+  border: none;
+  resize: none;
+}
+
+.idBox, .cntBox .titleBox, .dateBox, .writerBox, .contentBox{
   width: 90%;
 }
 
-.boardTitle, .boardDate, .boardWriter{
+.row{
   width: 100%;
+  height: 2px;
+  background: lightskyblue;
 }
 
 .boardContent{
   width: 100%;
-  height: 500px;
+  height: 250px;
+}
+
+.buttonBox{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: center;
+}
+
+.buttonBox button{
+  width: 100px;
+  height: 100px;
+  border: solid 5px lightskyblue;
+  border-radius: 10px;
+  background-color: white;
+  color: dimgrey;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top : 20px;
+}
+
+.gamja-flower-regular {
+  font-family: "Gamja Flower", serif;
+  font-weight: 400;
+  font-style: normal;
 }

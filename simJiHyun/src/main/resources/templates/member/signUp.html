@@ -13,7 +13,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
-  <link rel="stylesheet" th:href="@{/css/layout/main.css}"/>
+  <link rel="stylesheet" th:href="@{/css/layout/main.css}">
+  <link rel="stylesheet" th:href="@{/css/layout/noteSprings.css}">
+  <link rel="stylesheet" th:href="@{/css/member/signUp.css}">
+  <link rel="stylesheet" th:href="@{/css/layout/bookMark.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+
 </head>
 <body>
 <div class="container">
@@ -21,12 +28,8 @@
   <main>
     <th:block th:replace="~{/layout/noteSprings.html :: container1}"></th:block>
 
-    <!--오른쪽 날개
-    1. 책갈피에 무엇을 누르냐에 따라 화면이 바뀐다
-    ex) 일촌평을 누르면 일촌평 목록만
-    2. 회원가입 날개에는 아이디, 비밀번호, 이름, 이메일이 들어간다.-->
     <div class="container2">
-      <form class="login" method="post" action="/login/signUpProcess">
+      <form class="login" method="post" action="/member/signUpProcess">
         <div class="idBox">
           <label for="memberId">아이디</label>
           <input type="text" name="memberId" id="memberId" placeholder="아이디">

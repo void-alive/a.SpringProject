@@ -1,18 +1,15 @@
-/*오른쪽 날개*/
-.container2 {
-  border: solid 5px black;
+form {
+  border: solid 5px lightskyblue;
   border-radius: 10px;
   height: 700px;
   width: 60%;
-  padding: 30px 20px 20px 20px;
+  padding: 30px 30px 30px 30px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .myPageContainer{
-  border: solid 5px black;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -34,4 +31,32 @@
 .boardContent{
   width: 100%;
   height: 100%;
+}
+
+.buttonBox{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: center;
+}
+
+.buttonBox button{
+  width: 100px;
+  height: 100px;
+  border: solid 5px lightskyblue;
+  border-radius: 10px;
+  background-color: white;
+  color: dimgrey;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top : 20px;
+}
+
+.gamja-flower-regular {
+  font-family: "Gamja Flower", serif;
+  font-weight: 400;
+  font-style: normal;
 }

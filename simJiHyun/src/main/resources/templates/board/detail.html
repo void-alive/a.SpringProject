@@ -16,6 +16,9 @@
   <link rel="stylesheet" th:href="@{/css/layout/noteSprings.css}">
   <link rel="stylesheet" th:href="@{/css/board/boardDetail.css}">
   <link rel="stylesheet" th:href="@{/css/layout/bookMark.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
   <script>
       $(document).ready(function () {
           $(".homeButton").on("click", function () {
@@ -26,7 +29,7 @@
               $("#method").val("PUT");
 
               let frm = $("#frm")[0];
-              frm.action="/board/detail/" + $("#boardIdx").val();
+              frm.action = "/board/detail/" + $("#boardIdx").val();
               frm.submit();
           });
 
@@ -34,7 +37,7 @@
               $("#method").val("DELETE");
 
               let frm = $("#frm")[0];
-              frm.action="/board/detail/" + $("#boardIdx").val();
+              frm.action = "/board/detail/" + $("#boardIdx").val();
               frm.submit();
           });
 
@@ -58,37 +61,52 @@
 
       <div class="container2" th:each="board : ${board}">
         <div class="idxBox">
+          <span>번호 : </span>
           <input type="text" name="boardIdx" id="boardIdx" class="boardIdx" placeholder="제목"
                  readonly th:value="${board.boardIdx}">
         </div>
 
+        <div class="row"></div>
+
         <div class="cntBox">
+          <span>조회수 : </span>
           <input type="text" name="hitCnt" id="hitCnt" class="hitCnt" placeholder="제목"
                  readonly th:value="${board.hitCnt}">
         </div>
 
+        <div class="row"></div>
+
         <div class="titleBox">
+          <span>제목 : </span>
           <input type="text" name="boardTitle" id="boardTitle" class="boardTitle" placeholder="제목"
                  th:value="${board.boardTitle}">
         </div>
 
+        <div class="row"></div>
+
         <div class="dateBox">
+          <span>작성일 : </span>
           <input type="text" name="boardDate" id="boardDate" class="boardDate" placeholder="날짜"
                  readonly th:value="${board.boardDate}">
         </div>
 
+        <div class="row"></div>
+
         <div class="writerBox">
+          <span>작성자 : </span>
           <input type="text" name="boardWriter" id="boardWriter" class="boardWriter" placeholder="쓴 사람"
                  th:value="${board.boardWriter}">
         </div>
 
+        <div class="row"></div>
+
         <div class="contentBox">
-        <textarea name="boardContent" id="boardContent" class="boardContent" placeholder="내용"
-                  th:text="${board.boardContent}"></textarea>
+          <span>내용 </span>
+          <textarea name="boardContent" id="boardContent" class="boardContent" placeholder="내용"
+                    th:text="${board.boardContent}"></textarea>
         </div>
 
         <div class="buttonBox">
-
           <button type="button" class="homeButton">
             <i class="fa-solid fa-note-sticky"></i>
             <p>메인으로</p>

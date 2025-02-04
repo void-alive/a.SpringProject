@@ -17,12 +17,12 @@
   <link rel="stylesheet" th:href="@{/css/layout/noteSprings.css}"/>
   <link rel="stylesheet" th:href="@{/css/member/loginFirst.css}"/>
   <link rel="stylesheet" th:href="@{/css/layout/bookMark.css}"/>
+  <link rel="stylesheet" href="/static/css/member/loginFirst.css"/>
   <script>
       $(document).ready(function () {
-          // 버튼
+          // 회원가입 버튼을 누르면 회원가입 창으로
           $(".signUpButton").on("click", function () {
-              //     회원가입 창으로 이동
-              location.href="/member/signUp";
+              location.href = "/member/signUp";
           });
       });
   </script>
@@ -32,35 +32,29 @@
 <div class="container">
   <!--메인-->
   <main>
+    <!--줄 노트-->
     <th:block th:replace="~{/layout/noteSprings.html :: container1}"></th:block>
 
-    <!--오른쪽 날개
-    1. 책갈피에 무엇을 누르냐에 따라 화면이 바뀐다
-    ex) 일촌평을 누르면 일촌평 목록만
-    2. 처음에는 무조건 로그인 화면으로 간다-->
+    <!--메인 화면-->
     <div class="container2">
-
       <form class="login" method="post" action="/member/loginProcess">
-
         <div class="idBox">
-          <label for="memberId">아이디</label>
+<!--          <label for="memberId">아이디</label>-->
           <input type="text" name="memberId" id="memberId" placeholder="아이디">
         </div>
-
         <div class="passBox">
-          <label for="memberPass">비밀번호</label>
+<!--          <label for="memberPass">비밀번호</label>-->
           <input type="text" name="memberPass" id="memberPass" placeholder="비밀번호">
         </div>
-
         <div class="buttonBox">
           <button type="submit" class="loginButton">로그인</button>
           <button type="button" class="signUpButton">회원가입</button>
         </div>
-
       </form>
 
     </div>
 
+    <!--북마크-->
     <th:block th:replace="~{/layout/bookMark.html :: container3}"></th:block>
   </main>
 </div>
