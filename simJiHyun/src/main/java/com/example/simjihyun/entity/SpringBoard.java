@@ -11,6 +11,7 @@ import static java.time.LocalDate.now;
 @Entity
 @Table(name = "spring_board")
 @Getter
+@Setter
 @NoArgsConstructor
 public class SpringBoard {
   @Id

@@ -13,13 +13,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
-  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+  <link rel="stylesheet" th:href="@{/css/layout/main.css}"/>
 </head>
 <body>
 <div class="container">
   <!--메인-->
   <main>
-    <th:block th:replace="~{/layout/container1.html :: container1}"></th:block>
+    <th:block th:replace="~{/layout/noteSprings.html :: container1}"></th:block>
 
     <!--오른쪽 날개
     1. 책갈피에 무엇을 누르냐에 따라 화면이 바뀐다
@@ -45,12 +45,12 @@
         </div>
         <div class="buttonBox">
           <button type="submit" class="signUpButton">회원가입</button>
-          <button type="reset" class="resetButton" th:href="@{/login/first}">취소</button>
+          <button type="reset" class="resetButton" th:href="@{/templates/member/first}">취소</button>
         </div>
       </form>
     </div>
 
-    <th:block th:replace="~{/layout/container3.html :: container3}"></th:block>
+    <th:block th:replace="~{/layout/bookMark.html :: container3}"></th:block>
 
   </main>
 </div>

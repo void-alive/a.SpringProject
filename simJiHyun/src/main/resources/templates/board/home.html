@@ -12,51 +12,71 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
-  <link rel="stylesheet" th:href="@{/css/main.css}">
-  <link rel="stylesheet" th:href="@{/css/container1.css}">
-  <link rel="stylesheet" th:href="@{/css/boardHome.css}">
-  <link rel="stylesheet" th:href="@{/css/container3.css}">
+  <link rel="stylesheet" th:href="@{/css/layout/main.css}">
+  <link rel="stylesheet" th:href="@{/css/layout/noteSprings.css}">
+  <link rel="stylesheet" th:href="@{/css/board/boardHome.css}">
+  <link rel="stylesheet" th:href="@{/css/layout/bookMark.css}">
+  <script>
+      $(document).ready(function () {
+          $(".writeButton").on("click", function () {
+              location.href = "/board/write"
+          });
+      });
+  </script>
 </head>
 <body>
 <div class="container">
 
   <!--메인-->
   <main>
-    <th:block th:replace="~{/layout/container1.html :: container1}"></th:block>
+    <th:block th:replace="~{/layout/noteSprings.html :: container1}"></th:block>
 
-    <!--home 화면
-    1. 작성된 게시물의 이름, 글, 날짜 등을 보여준다-->
-    <div class="container2" th:each="board : ${boardList}">
-      <div class="titleBox">
-        <input type="text" name="boardTitle" id="boardTitle" class="boardTitle" placeholder="제목"
-               readonly th:value="${board.boardTitle}">
-      </div>
-
-      <div class="dateBox">
-        <input type="text" name="boardDate" id="boardDate" class="boardDate" placeholder="날짜"
-               readonly th:value="${board.boardDate}">
-      </div>
-
-      <div class="writerBox">
-        <input type="text" name="boardWriter" id="boardWriter" class="boardWriter" placeholder="쓴 사람"
-               readonly th:value="${board.boardWriter}">
-      </div>
-
-      <div class="contentBox">
-        <textarea name="boardContent" id="boardContent" class="boardContent" placeholder="내용"
-                  readonly th:value="${board.boardContent}"></textarea>
-      </div>
-
-    </div>
-
-    <!--글 쓰기 수정 삭제-->
-    <i class="fa-solid fa-pencil"></i>
-    <i class="fa-solid fa-eraser"></i>
-    <i class="fa-solid fa-trash"></i>
     <!--페이징
     1. 이전페이지와 다음 페이지를 보여준다
     2. 한 페이지에 하나씩-->
-    <th:block th:replace="~{/layout/container3.html :: container3}"></th:block>
+
+    <!--home 화면
+    1. 작성된 게시물의 이름, 글, 날짜 등을 보여준다-->
+    <div class="container2">
+
+      <!--게시글 리스트-->
+      <!--3*3의 정사각형 모양으로-->
+      <!--해당 정사각형을 누르면 상세 보기 페이지로-->
+      <div class="homeContainer" th:each="board : ${boardList}">
+
+        <div class="titleBox">
+          <a href="#" th:href="@{|/board/detail/${board.boardIdx}|}">
+            <input type="text" name="boardTitle" id="board_title" class="boardTitle" placeholder="제목"
+                   readonly th:value="${board.boardTitle}">
+          </a>
+        </div>
+
+        <div class="dateBox">
+          <input type="text" name="boardDate" id="board_date" class="boardDate" placeholder="날짜"
+                 readonly th:value="${board.boardDate}">
+        </div>
+
+        <div class="writerBox">
+          <input type="text" name="boardWriter" id="board_writer" class="boardWriter" placeholder="쓴 사람"
+                 readonly th:value="${board.boardWriter}">
+        </div>
+
+        <div class="contentBox">
+                <textarea name="boardContent" id="board_content" class="boardContent" placeholder="내용"
+                          readonly th:text="${board.boardContent}"></textarea>
+        </div>
+      </div>
+
+      <div class="buttonBox">
+        <!--글 쓰기 삭제-->
+        <button type="button" class="writeButton">
+          <i class="fa-solid fa-pencil"></i>
+          <p>글쓰기</p>
+        </button>
+      </div>
+    </div>
+
+    <th:block th:replace="~{/layout/bookMark.html :: container3}"></th:block>
 
   </main>
 </div>

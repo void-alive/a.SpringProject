@@ -9,8 +9,6 @@
           integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
           crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<!--  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="-->
-<!--          crossorigin="anonymous"></script>-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -24,10 +22,8 @@
 
   <th:block th:unless="${session.memberId == null}">
     <button type="button" class="bookmark logoutBookmark" th:text="로그아웃"></button>
-    <button type="button" class="bookmark homeBookmark" id="btntest" onclick="dddd()">HOME</button>
-    <button type="button" class="bookmark guestBookmark">일촌평</button>
-    <button type="button" class="bookmark albumBookmark">사진첩</button>
-    <button type="button" class="bookmark diaryBookmark">다이어리</button>
+    <button type="button" class="bookmark homeBookmark">HOME</button>
+    <button type="button" class="bookmark myBookmark">마이페이지</button>
   </th:block>
 
   <script>
@@ -37,17 +33,8 @@
       $(".logoutBookmark").on("click", function () {
           location.href = "/login/logout";
       });
-      $(".homeBookmark").on("click", function () {
-          location.href = "/board/home";
-      });
-      $(".guestBookmark").on("click", function () {
-          location.href = "/board/home";
-      });
-      $(".albumBookmark").on("click", function () {
-          location.href = "/board/home";
-      });
-      $(".diaryBookmark").on("click", function () {
-          location.href = "/board/home";
+      $(".myBookmark").on("click", function () {
+          location.href = "/login/myPage";
       });
   </script>
 </div>
