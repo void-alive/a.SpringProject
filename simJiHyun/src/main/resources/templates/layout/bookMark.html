@@ -17,26 +17,22 @@
 <div class="container3" th:fragment="container3">
 
   <th:block th:if="${session.memberId == null}">
-    <button type="button" class="bookmark loginBookmark" th:text="로그인"></button>
+    <a href="#" th:href="@{/member/first}">
+      <button type="button" class="bookmark loginBookmark" th:text="로그인"></button>
+    </a>
   </th:block>
 
   <th:block th:unless="${session.memberId == null}">
-    <button type="button" class="bookmark logoutBookmark" th:text="로그아웃"></button>
-    <button type="button" class="bookmark homeBookmark">HOME</button>
-    <button type="button" class="bookmark myBookmark">마이페이지</button>
+    <a href="#" th:href="@{/member/logout}">
+      <button type="button" class="bookmark logoutBookmark" th:text="로그아웃"></button>
+    </a>
+    <a href="#" th:href="@{/board/home}">
+      <button type="button" class="bookmark homeBookmark">HOME</button>
+    </a>
+    <a href="#" th:href="@{|/member/myPage/${session.memberId}|}">
+      <button type="button" class="bookmark myBookmark">마이페이지</button>
+    </a>
   </th:block>
-
-  <script>
-      $(".loginBookmark").on("click", function () {
-          location.href = "/login/first";
-      });
-      $(".logoutBookmark").on("click", function () {
-          location.href = "/login/logout";
-      });
-      $(".myBookmark").on("click", function () {
-          location.href = "/login/myPage";
-      });
-  </script>
 </div>
 </body>
 </html>

@@ -6,6 +6,7 @@ import lombok.*;
 @Entity
 @Table(name = "spring_member")
 @Getter
+@Setter
 @NoArgsConstructor
 public class SpringMember {
   @Id

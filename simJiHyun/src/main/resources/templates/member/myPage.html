@@ -16,6 +16,29 @@
   <link rel="stylesheet" th:href="@{/css/layout/noteSprings.css}"/>
   <link rel="stylesheet" th:href="@{/css/member/myPage.css}"/>
   <link rel="stylesheet" th:href="@{/css/layout/bookMark.css}"/>
+  <script>
+      $(document).ready(function () {
+          $(".homeButton").on("click", function () {
+              location.href = "/board/home";
+          });
+
+          $(".modifyButton").on("click", function () {
+              $("#method").val("PUT");
+
+              let frm = $("#frm")[0];
+              frm.action = "/member/myPage/" + $("#member_id").val();
+              frm.submit();
+          });
+
+          $(".deleteButton").on("click", function () {
+              $("#method").val("DELETE");
+
+              let frm = $("#frm")[0];
+              frm.action = "/member/myPage/" + $("#member_id").val();
+              frm.submit();
+          });
+      });
+  </script>
 </head>
 <body>
 
@@ -23,33 +46,56 @@
   <!--마이페이지-->
   <main>
     <th:block th:replace="~{/layout/noteSprings.html :: container1}"></th:block>
+    <form id="frm" method="post" action="#">
+      <input type="hidden" id="method" name="_method">
+      <div class="container2">
+        <div class="myPageContainer" th:each="member : ${member}">
 
-    <!--오른쪽 날개
-    1. 책갈피에 무엇을 누르냐에 따라 화면이 바뀐다
-    ex) 일촌평을 누르면 일촌평 목록만
-    2. 처음에는 무조건 로그인 화면으로 간다-->
-    <div class="container2">
+          <div class="idBox">
+            <label for="member_id">아이디</label>
+            <input type="text" name="memberId" id="member_id" class="memberId" placeholder="제목"
+                   th:value="${member.memberId}">
+          </div>
 
-      <form class="login" method="post" action="/login/loginProcess">
+          <div class="passBox">
+            <label for="member_id">비밀번호</label>
+            <input type="text" name="memberPass" id="member_pass" class="memberPass" placeholder="날짜"
+                   th:value="${member.memberPass}">
+          </div>
 
-        <div class="idBox">
-          <label for="memberId">아이디</label>
-          <input type="text" name="memberId" id="memberId" placeholder="아이디">
+          <div class="nameBox">
+            <label for="member_id">이름</label>
+            <input type="text" name="memberName" id="member_name" class="memberName" placeholder="쓴 사람"
+                   th:value="${member.memberName}">
+          </div>
+
+          <div class="emailBox">
+            <label for="member_id">이메일</label>
+            <input type="text" name="memberEmail" id="member_email" class="memberEmail" placeholder="쓴 사람"
+                   th:value="${member.memberEmail}">
+          </div>
+
+          <div class="buttonBox">
+
+            <button type="button" class="homeButton">
+              <i class="fa-solid fa-note-sticky"></i>
+              <p>메인으로</p>
+            </button>
+
+            <button type="button" class="modifyButton">
+              <i class="fa-solid fa-eraser"></i>
+              <p>수정</p>
+            </button>
+
+            <button type="button" class="deleteButton">
+              <i class="fa-solid fa-trash"></i>
+              <p>삭제</p>
+            </button>
+          </div>
         </div>
 
-        <div class="passBox">
-          <label for="memberPass">비밀번호</label>
-          <input type="text" name="memberPass" id="memberPass" placeholder="비밀번호">
-        </div>
-
-        <div class="buttonBox">
-          <button type="submit" class="loginButton">로그인</button>
-          <button type="button" class="signUpButton">회원가입</button>
-        </div>
-
-      </form>
-
-    </div>
+      </div>
+    </form>
 
     <th:block th:replace="~{/layout/bookMark.html :: container3}"></th:block>
   </main>

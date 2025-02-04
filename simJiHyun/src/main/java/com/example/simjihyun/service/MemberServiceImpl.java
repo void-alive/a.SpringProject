@@ -1,5 +1,6 @@
 package com.example.simjihyun.service;
 
+import com.example.simjihyun.entity.SpringBoard;
 import com.example.simjihyun.entity.SpringMember;
 import com.example.simjihyun.repository.MemberRepository;
 import jakarta.persistence.LockModeType;
@@ -11,6 +12,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +43,35 @@ public class MemberServiceImpl implements MemberService {
   @Override
   public void signUp(SpringMember member) {
     memberRepository.save(member);
+  }
+
+  //  마이페이지 자기 정보 확인
+  @Override
+  public SpringMember selectMemberDetail(String memberId) {
+    Optional<SpringMember> optional = memberRepository.findByMemberId(memberId);
+
+    if (optional.isPresent()) {
+      SpringMember member = optional.get();
+      return member;
+    } else {
+      throw new NullPointerException();
+    }
+  }
+
+  //  아이디 및 비밀번호 수정
+  public void updateMember(String originalMemberId, String newMemberId,
+                           String memberPass, String memberName, String memberEmail) {
+//    아이디가 있으면 오류 발생
+    if (!originalMemberId.equals(newMemberId) && memberRepository.countByMemberId(newMemberId) > 0) {
+      throw new RuntimeException("이미 존재하는 아이디입니다.");
+    }
+//    아이디가 없으면 쿼리문 실행
+    memberRepository.queryUpdate(originalMemberId, newMemberId, memberPass, memberName, memberEmail);
+  }
+
+  //  삭제
+  @Override
+  public void deleteMember(String memberId) {
+    memberRepository.deleteByMemberId(memberId);
   }
 }
