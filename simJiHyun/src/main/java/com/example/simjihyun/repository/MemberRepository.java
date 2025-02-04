@@ -2,6 +2,8 @@ package com.example.simjihyun.repository;
 
 import com.example.simjihyun.entity.SpringMember;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,4 +33,5 @@ public interface MemberRepository extends JpaRepository<SpringMember, Long> {
                    @Param("memberName") String memberName,
                    @Param("memberEmail") String memberEmail);
 
+  Page<SpringMember> findAll(Pageable pageable);
 }

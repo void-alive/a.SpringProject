@@ -3,8 +3,13 @@ package com.example.simjihyun.service;
 import com.example.simjihyun.entity.SpringBoard;
 import com.example.simjihyun.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,5 +64,14 @@ public class BoardServiceImpl implements BoardService {
   @Override
   public void saveBoard(SpringBoard board) {
     boardRepository.save(board);
+  }
+
+//  페이징
+@Override
+public Page<SpringBoard> getList(int page){
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("boardDate"));
+    Pageable pageable = PageRequest.of(page, 9, Sort.by(sorts));
+    return this.boardRepository.findAll(pageable);
   }
 }

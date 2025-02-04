@@ -60,56 +60,66 @@
       <input type="hidden" id="method" name="_method">
 
       <div class="container2" th:each="board : ${board}">
-        <div class="idxBox">
-          <span>번호 : </span>
-          <input type="text" name="boardIdx" id="boardIdx" class="boardIdx" placeholder="제목"
-                 readonly th:value="${board.boardIdx}">
+        <!-- 번호, 조회수, 작성일-->
+        <div class="rowBox">
+          <div class="idxBox">
+            <span>번호 : </span>
+            <input type="text" name="boardIdx" id="boardIdx" class="boardIdx" placeholder="제목"
+                   readonly th:value="${board.boardIdx}">
+          </div>
+
+          <div class="cntBox">
+            <span>조회수 : </span>
+            <input type="text" name="hitCnt" id="hitCnt" class="hitCnt" placeholder="제목"
+                   readonly th:value="${board.hitCnt}">
+          </div>
+
+          <div class="dateBox">
+            <span>작성일 : </span>
+            <input type="text" name="boardDate" id="boardDate" class="boardDate" placeholder="날짜"
+                   readonly th:value="${board.boardDate}">
+          </div>
+
         </div>
 
         <div class="row"></div>
 
-        <div class="cntBox">
-          <span>조회수 : </span>
-          <input type="text" name="hitCnt" id="hitCnt" class="hitCnt" placeholder="제목"
-                 readonly th:value="${board.hitCnt}">
+        <!--제목, 작성자-->
+        <div class="rowBox">
+          <div class="titleBox">
+            <span>제목 : </span>
+            <input type="text" name="boardTitle" id="boardTitle" class="boardTitle" placeholder="제목"
+                   th:value="${board.boardTitle}">
+          </div>
+
+          <div class="writerBox">
+            <span>작성자 : </span>
+            <input type="text" name="boardWriter" id="boardWriter" class="boardWriter" placeholder="쓴 사람"
+                   th:value="${board.boardWriter}">
+          </div>
+
         </div>
 
         <div class="row"></div>
 
-        <div class="titleBox">
-          <span>제목 : </span>
-          <input type="text" name="boardTitle" id="boardTitle" class="boardTitle" placeholder="제목"
-                 th:value="${board.boardTitle}">
-        </div>
-
-        <div class="row"></div>
-
-        <div class="dateBox">
-          <span>작성일 : </span>
-          <input type="text" name="boardDate" id="boardDate" class="boardDate" placeholder="날짜"
-                 readonly th:value="${board.boardDate}">
-        </div>
-
-        <div class="row"></div>
-
-        <div class="writerBox">
-          <span>작성자 : </span>
-          <input type="text" name="boardWriter" id="boardWriter" class="boardWriter" placeholder="쓴 사람"
-                 th:value="${board.boardWriter}">
-        </div>
-
-        <div class="row"></div>
-
+        <!--댓글-->
         <div class="contentBox">
-          <span>내용 </span>
+          <span>내용</span>
           <textarea name="boardContent" id="boardContent" class="boardContent" placeholder="내용"
                     th:text="${board.boardContent}"></textarea>
+        </div>
+
+        <div class="row"></div>
+
+        <div class="commentBox">
+          <span>댓글</span>
+          <textarea name="boardComment" id="boardComment" class="boardComment" placeholder="댓글"></textarea>
         </div>
 
         <div class="buttonBox">
           <button type="button" class="homeButton">
             <i class="fa-solid fa-note-sticky"></i>
-            <p>메인으로</p>
+            <p>메인<br>으로</p>
           </button>
 
           <button type="button" class="modifyButton">
@@ -124,15 +134,11 @@
 
           <button type="button" class="commentButton">
             <i class="fa-solid fa-comments"></i>
-            <p>댓글</p>
+            <p>댓글<br>등록</p>
           </button>
         </div>
       </div>
     </form>
-
-    <!--페이징
-    1. 이전페이지와 다음 페이지를 보여준다
-    2. 한 페이지에 하나씩-->
 
     <th:block th:replace="~{/layout/bookMark.html :: container3}"></th:block>
 

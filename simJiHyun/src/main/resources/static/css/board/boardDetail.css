@@ -4,7 +4,7 @@ form {
   border-radius: 10px;
   height: 700px;
   width: 60%;
-  padding: 50px 50px 50px 50px;
+  padding: 0px 50px 0px 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,8 +18,9 @@ form {
   gap: 10px;
 }
 
-.container2 input{
+.container2 input {
   border: none;
+  width: 100%;
 }
 
 .container2 textarea{
@@ -27,8 +28,15 @@ form {
   resize: none;
 }
 
-.idBox, .cntBox .titleBox, .dateBox, .writerBox, .contentBox{
-  width: 90%;
+.rowBox {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.idxBox, .cntBox, .titleBox, .dateBox, .writerBox, .contentBox, .commentBox{
+  width: 100%;
 }
 
 .row{
@@ -39,7 +47,15 @@ form {
 
 .boardContent{
   width: 100%;
-  height: 250px;
+  height: 200px;
+}
+
+.commentBox{
+  display: flex;
+  flex-direction: column;
+}
+.boardComment{
+  width: 100%;
 }
 
 .buttonBox{
@@ -50,8 +66,8 @@ form {
 }
 
 .buttonBox button{
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border: solid 5px lightskyblue;
   border-radius: 10px;
   background-color: white;

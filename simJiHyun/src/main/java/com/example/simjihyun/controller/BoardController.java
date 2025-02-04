@@ -3,6 +3,7 @@ package com.example.simjihyun.controller;
 import com.example.simjihyun.entity.SpringBoard;
 import com.example.simjihyun.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +20,18 @@ public class BoardController {
   private BoardService boardService;
 
 //  리스트
-  @RequestMapping("/home")
+/*  @RequestMapping("/home")
   public String home(Model model) throws Exception {
     List<SpringBoard> boardList = boardService.query();
     model.addAttribute("boardList", boardList);
+    return "/board/home";
+  }*/
+
+//  페이징 리스트
+  @RequestMapping("/home")
+  public String home(Model model, @RequestParam(value="page", defaultValue = "0")int page){
+    Page<SpringBoard> paging = this.boardService.getList(page);
+    model.addAttribute("boardList",paging);
     return "/board/home";
   }
 

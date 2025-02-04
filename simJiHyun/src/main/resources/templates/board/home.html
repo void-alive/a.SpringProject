@@ -24,10 +24,6 @@
           $(".writeButton").on("click", function () {
               location.href = "/board/write"
           });
-          /*          $(".homeContainer").on("click",function(){
-                        let write = $("#titleContainer").val();
-                        location.href="/board/detail"
-                    });*/
       });
   </script>
 </head>
@@ -38,9 +34,6 @@
   <main>
     <th:block th:replace="~{/layout/noteSprings.html :: container1}"></th:block>
 
-    <!--페이징
-    1. 이전페이지와 다음 페이지를 보여준다
-    2. 한 페이지에 하나씩-->
     <div class="container2">
       <div class="homeContainer" th:each="board : ${boardList}">
 
@@ -66,23 +59,42 @@
                           readonly th:text="|내용 : ${board.boardContent}|"></textarea>
         </div>
       </div>
-
-      <!--글쓰기 버튼 중간으로 옮기려고 넣음!-->
-      <div></div>
-
-      <div class="buttonBox">
-        <!--글 쓰기 삭제-->
-        <button type="button" class="writeButton">
-          <i class="fa-solid fa-pencil"></i>
-          <p>글쓰기</p>
-        </button>
-      </div>
-
     </div>
 
     <th:block th:replace="~{/layout/bookMark.html :: container3}"></th:block>
 
   </main>
+
+  <!-- 페이징처리 시작 -->
+  <div th:if="${!boardList.isEmpty()}">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" th:classappend="${!boardList.hasPrevious} ? 'disabled'">
+        <a class="page-link"
+           th:href="@{|?page=${boardList.number-1}|}">
+          <span>이전</span>
+        </a>
+      </li>
+      <li th:each="page: ${#numbers.sequence(0, boardList.totalPages-1)}"
+          th:classappend="${page == boardList.number} ? 'active'"
+          class="page-item">
+        <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+      </li>
+      <li class="page-item" th:classappend="${!boardList.hasNext} ? 'disabled'">
+        <a class="page-link" th:href="@{|?page=${boardList.number+1}|}">
+          <span>다음</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- 페이징처리 끝 -->
+
+  <div class="buttonBox">
+    <!--글 쓰기 삭제-->
+    <button type="button" class="writeButton">
+      <i class="fa-solid fa-pencil"></i>
+      <p>글쓰기</p>
+    </button>
+  </div>
 </div>
 </body>
 </html>
