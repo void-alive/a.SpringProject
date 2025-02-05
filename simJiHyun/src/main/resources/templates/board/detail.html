@@ -21,6 +21,41 @@
   <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
   <script>
       $(document).ready(function () {
+          let boardIdx = $("#boardIdx").val();
+
+          // 댓글 보기
+          $.ajax({
+              url: `/comment/list/${boardIdx}`,
+              type: "get",
+              success: function (data) {
+                  let commentsBox = $(".commentsBox");
+                  commentsBox.empty();
+
+                  data.commentList.forEach(comment => {
+                      let html = "<div class='comment-item'>";
+                      html += "<p><strong>" + comment.commentId + "</strong> (" + comment.commentDate + ")</p>";
+                      html += "<p>" + comment.commentWord + "</p>";
+                      html += "<button type='button' class='commentModifyButton'>수정</button>";
+                      html += "<button type='button' class='commentDeleteButton'>삭제</button>";
+                      html += "</div>";
+
+                      commentsBox.append(html);
+
+                      // 댓글 수정
+                      $(".commentModifyButton").on("click", function () {
+                          console.log("commentModifyButton");
+                          alert("commentModifyButton 누름");
+                      });
+
+                      //댓글 삭제
+                      $(".commentDeleteButton").on("click", function () {
+                          console.log("commentDeleteButton");
+                          alert("commentDeleteButton 누름");
+                      });
+                  });
+              }
+          });
+
           $(".homeButton").on("click", function () {
               location.href = "/board/home";
           });
@@ -41,8 +76,39 @@
               frm.submit();
           });
 
+          // 댓글 달기
           $(".commentButton").on("click", function () {
-              alert("개발중");
+              let commentWord = $("#comment_word").val();
+              let boardIdx = $("#boardIdx").val();
+
+              $.ajax({
+                  url: `/comment/write/${boardIdx}`,
+                  type: "post",
+                  data: {commentWord: commentWord},
+                  success: function (data) {
+                      if (data.result === "success") {
+                          alert("성공");
+                      } else {
+                          alert("실패");
+                      }
+                  }
+                  ,
+                  error: function () {
+                      alert("ajax 통신 중 오류");
+                  }
+              });
+          });
+
+          //댓글 수정
+          $(".commentModifyButton").on("click", function () {
+              console.log("commentModifyButton");
+              alert("commentModifyButton 누름");
+          });
+
+          //댓글 삭제
+          $(".commentDeleteButton").on("click", function () {
+              console.log("commentDeleteButton");
+              alert("commentDeleteButton 누름");
           });
       });
   </script>
@@ -102,7 +168,6 @@
 
         <div class="row"></div>
 
-        <!--댓글-->
         <div class="contentBox">
           <span>내용</span>
           <textarea name="boardContent" id="boardContent" class="boardContent" placeholder="내용"
@@ -111,11 +176,20 @@
 
         <div class="row"></div>
 
+        <!--댓글 작성-->
         <div class="commentBox">
           <span>댓글</span>
-          <textarea name="boardComment" id="boardComment" class="boardComment" placeholder="댓글"></textarea>
+          <textarea name="commentWord" id="comment_word" class="commentWord"
+                    placeholder="여기에 댓글을 쓰세요"></textarea>
         </div>
 
+        <div class="row"></div>
+
+        <!--지금까지 작성한 댓글들 보기-->
+        <div class="commentsBox">
+        </div>
+
+        <!--버튼들-->
         <div class="buttonBox">
           <button type="button" class="homeButton">
             <i class="fa-solid fa-note-sticky"></i>

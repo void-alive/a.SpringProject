@@ -3,6 +3,9 @@ package com.example.simjihyun.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "spring_member")
 @Getter
@@ -24,4 +27,8 @@ public class SpringMember {
 
   @Column(nullable = false, name = "member_email", unique = true)
   private String memberEmail;
+
+//  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+//  @ToString.Exclude
+//  private List<SpringBoard> board = new ArrayList<>();
 }

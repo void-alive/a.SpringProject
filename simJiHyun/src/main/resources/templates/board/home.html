@@ -37,6 +37,10 @@
     <div class="container2">
       <div class="homeContainer" th:each="board : ${boardList}">
 
+        <div>
+          <input type="text" name="boardIdx" id="board_idx" class="boardIdx" placeholder="번호"
+                 readonly th:value="|글 번호 : ${board.boardIdx}|">
+        </div>
         <div class="titleBox">
           <a href="#" th:href="@{|/board/detail/${board.boardIdx}|}" id="titleContainer">
             <input type="text" name="boardTitle" id="board_title" class="boardTitle" placeholder="제목"

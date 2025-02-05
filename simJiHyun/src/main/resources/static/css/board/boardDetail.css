@@ -53,7 +53,9 @@ form {
 .commentBox{
   display: flex;
   flex-direction: column;
+  resize: initial;
 }
+
 .boardComment{
   width: 100%;
 }

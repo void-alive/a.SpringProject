@@ -2,9 +2,12 @@ package com.example.simjihyun.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.ibatis.annotations.Many;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.time.LocalDate.now;
 
@@ -33,4 +36,7 @@ public class SpringBoard {
   @Column(name = "hit_cnt", nullable = false)
   private int hitCnt = 0;
 
+  @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST)
+  @ToString.Exclude
+  private List<SpringComment> comments = new ArrayList<>();
 }
