@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
@@ -34,4 +33,6 @@ public interface MemberRepository extends JpaRepository<SpringMember, Long> {
                    @Param("memberEmail") String memberEmail);
 
   Page<SpringMember> findAll(Pageable pageable);
+
+  boolean existsByMemberId(String memberId);
 }

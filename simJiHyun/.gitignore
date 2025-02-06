@@ -36,4 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 /src/main/resources/static/bootstrap-5.0.2-dist/
-C:\FULLSTACK503\a.SpringProject(0203)\simJiHyun\src\main\resources\static\upload
+/src/main/resources/static/upload/

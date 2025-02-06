@@ -25,7 +25,7 @@ public class SpringMember {
   @Column(nullable = false, name = "member_name")
   private String memberName;
 
-  @Column(nullable = false, name = "member_email", unique = true)
+  @Column(nullable = false, name = "member_email")
   private String memberEmail;
 
 //  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

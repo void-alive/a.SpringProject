@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/member")
@@ -62,10 +64,23 @@ public class MemberController {
 
   //  회원가입
   @PostMapping("/signUpProcess")
-  public String signUpProcess(SpringMember member)
-          throws Exception {
-    memberService.signUp(member);
+  public String signUpProcess(SpringMember member) throws Exception {
+    try {
+      memberService.signUp(member);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
     return "redirect:/member/first";
+  }
+
+  //  아이디 중복 확인
+  @GetMapping("/isUniqueId")
+  @ResponseBody
+  public Map<String, Boolean> isUniqueId(@RequestParam("memberId") String memberId) {
+    boolean isUnique = memberService.existsByMemberId(memberId);
+    Map<String, Boolean> response = new HashMap<>();
+    response.put("isUnique", isUnique);
+    return response;
   }
 
   //  로그아웃
