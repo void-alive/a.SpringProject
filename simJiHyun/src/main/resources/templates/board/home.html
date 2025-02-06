@@ -37,7 +37,7 @@
     <div class="container2">
       <div class="homeContainer" th:each="board : ${boardList}">
 
-        <div>
+        <div class="idxBox">
           <input type="text" name="boardIdx" id="board_idx" class="boardIdx" placeholder="번호"
                  readonly th:value="|글 번호 : ${board.boardIdx}|">
         </div>

@@ -1,6 +1,7 @@
 package com.example.simjihyun.service;
 
 import com.example.simjihyun.entity.SpringComment;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,8 +15,10 @@ public interface CommentService {
   List<SpringComment> seeComment(long boardIdx);
 
   //  수정
-  void updateComment(String commentWord, String memberId, long commentIdx);
+  void updateComment(@RequestParam("newCommentWord") String newCommentWord,
+                     @RequestParam("commentId") String commentId,
+                     @RequestParam("commentIdx") long commentIdx);
 
   //  삭제
-  void deleteComment(Long commentIdx);
+  void deleteComment(@RequestParam("commentIdx") long commentIdx);
 }

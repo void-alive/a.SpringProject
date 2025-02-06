@@ -14,8 +14,11 @@ public interface BoardService {
 
   void deleteBoard(Long boardIdx);
 
-  void saveBoard(SpringBoard board);
+  SpringBoard saveBoard(SpringBoard board);
 
   //  페이징
   Page<SpringBoard> getList(int page);
+
+  //  첨부파일
+//  PageResponseDTO<SpringBoard> list(PageRequestDTO pageRequestDTO);
 }

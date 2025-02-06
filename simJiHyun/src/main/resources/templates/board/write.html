@@ -16,7 +16,107 @@
   <link rel="stylesheet" th:href="@{/css/layout/noteSprings.css}">
   <link rel="stylesheet" th:href="@{/css/board/boardDetail.css}">
   <link rel="stylesheet" th:href="@{/css/layout/bookMark.css}">
-  <link rel="stylesheet" href="/css/board/boardDetail.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+      //파일 업로드 처리
+      async function uploadToServer(formObj) {
+
+          const response = await axios({
+              method: 'post',
+              url: '/file/upload',
+              data: formObj,
+              headers: {
+                  'Content-Type': 'multipart/form-data',
+              },
+          });
+
+          return response.data;
+      }
+
+      // 파일 없애기
+      async function removeFileToServer(uuid, fileName) {
+          const response = await axios.delete(`/file/remove/${uuid}_${fileName}`)
+          return response.data;
+      }
+
+      // removeFile 함수
+      function removeFile(uuid, fileName, obj) {
+          // console.log(uuid)
+          // console.log(fileName)
+          // console.log(obj)
+
+          const targetDiv = obj.closest(".card")
+
+          removeFileToServer(uuid, fileName).then(data => {
+              targetDiv.remove()
+          })
+      }
+
+      $(document).ready(function () {
+          let uploadModal = $(".uploadModal");
+          const uploadResult = document.querySelector(".uploadResult");
+
+          $(".homeButton").on("click", function () {
+              location.href = "/board/home";
+          });
+
+          $(".fileButton").on("click", function () {
+              uploadModal.show();
+              document.querySelector("input[name='files']").value = "";
+          });
+
+          // 업로드 버튼 누르면 async 함수 실행
+          $(".uploadBtn").on("click", async function (e) {
+              const formObj = new FormData();
+              const fileInput = document.querySelector("input[name='files']");
+              const files = fileInput.files;
+
+              for (let i = 0; i < files.length; i++) {
+                  formObj.append("files", files[i]);
+              }
+
+              uploadToServer(formObj).then(result => {
+                  for (const uploadResult of result) {
+                      showUploadFile(uploadResult);
+                  }
+                  uploadModal.hide();
+              }).catch(e => {
+                  uploadModal.hide();
+              });
+
+              // showUploadFile 함수로 올린 파일 확인하기
+              function showUploadFile({uuid, fileName, link}) {
+                  let html = `<div class="card col-4">`;
+                  html += `<div class="card-header d-flex justify-content-center">`;
+                  html += `${fileName}`;
+                  html += `<button type="button" class = "btn-sm btn-danger"`;
+                  html += `onclick="javascript:removeFile('${uuid}', '${fileName}', this)" >X</button>`;
+                  html += `</div>`;
+                  html += `<div class="card-body">`;
+                  html += `<img src="C://FULLSTACK503//a.SpringProject(0203)//simJiHyun//src//main//resources//static//upload${link}" data-src="${uuid + "_" + fileName}" >`;
+                  html += `</div>`;
+                  html += `</div>`;
+
+                  uploadResult.innerHTML += html;
+              }
+          });
+
+          $(".writeButton").on("click", function () {
+              const target = document.querySelector(".uploadHidden");
+              const uploadFiles = uploadResult.querySelectorAll("img");
+              let str = '';
+
+              for (let i = 0; i < uploadFiles.length; i++) {
+                  const uploadFile = uploadFiles[i];
+                  const imgLink = uploadFile.getAttribute("src");
+                  str += `<input type = 'hidden' name = 'fileNames' value="${imgLink}>`
+              }
+              target.innerHTML = str;
+              console.log(str);
+              // document.querySelector("form").submit();
+          });
+      });
+  </script>
 </head>
 <body>
 <div class="container">
@@ -27,7 +127,7 @@
 
     <!--list 화면
     작성한 글의 제목, 날짜, 작성자, 간략한 내용을 보여준다-->
-    <form id="frm" method="post" action="#">
+    <form id="frm" method="post" action="/board/write" enctype="multipart/form-data">
       <input type="hidden" id="method" name="_method">
 
       <div class="container2">
@@ -35,31 +135,65 @@
           <input type="text" name="boardTitle" id="boardTitle" class="boardTitle" placeholder="제목">
         </div>
 
-        <div class="writerBox">
-          <input type="text" name="boardWriter" id="boardWriter" class="boardWriter" placeholder="쓴 사람">
-        </div>
-
         <div class="contentBox">
           <textarea name="boardContent" id="boardContent" class="boardContent" placeholder="내용"></textarea>
         </div>
 
+        <div class="fileBox">
+          <div class="float-start uploadHidden">
+            <button type="button" class="btn btn-primary fileButton" id="addFile">Add Files</button>
+          </div>
+        </div>
+
+        <div class="modalBox">
+          <!--첨부파일 섬네일-->
+          <div class="row mt-3">
+            <div class="col ">
+              <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;">
+              </div>
+            </div>
+          </div>
+
+          <!--첨부파일 추가 모달-->
+          <div class="modal uploadModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Upload File</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="input-group mb-3">
+                    <input type="file" name="files" class="form-control" multiple>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary uploadBtn" id="uploadButton">Upload</button>
+                  <button type="button" class="btn btn-outline-dark closeUploadBtn">Close</button>
+                </div>
+              </div>
+            </div>
+          </div><!-- register modal -->
+        </div>
+
         <div class="buttonBox">
           <button type="submit" class="writeButton">
+            <i class="fa-solid fa-pencil"></i>
+            <p>작성</p>
+          </button>
+
+          <button type="reset" class="resetButton">
             <i class="fa-solid fa-eraser"></i>
-            <p>완료</p>
+            <p>취소</p>
           </button>
 
           <button type="reset" class="homeButton">
             <i class="fa-solid fa-note-sticky"></i>
-            <p>취소</p>
+            <p>메인으로</p>
           </button>
         </div>
       </div>
     </form>
-
-    <!--페이징
-    1. 이전페이지와 다음 페이지를 보여준다
-    2. 한 페이지에 하나씩-->
 
     <th:block th:replace="~{/layout/bookMark.html :: container3}"></th:block>
 

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static java.time.LocalDateTime.now;
 
@@ -12,7 +14,6 @@ import static java.time.LocalDateTime.now;
 @Table(name = "spring_comment", indexes = {@Index(name = "spring_board_board_idx", columnList = "board_idx")})
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -28,7 +29,7 @@ public class SpringComment {
   private String commentWord;
 
   @Column(nullable = false, name = "comment_date")
-  private LocalDateTime commentDate = now();
+  private String commentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "board_idx")

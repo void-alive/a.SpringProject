@@ -4,11 +4,11 @@ form {
   border-radius: 10px;
   height: 700px;
   width: 60%;
-  padding: 0px 50px 0px 50px;
+  padding: 50px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: stretch;
+  overflow: auto;
 }
 
 .container2{
@@ -35,8 +35,16 @@ form {
   padding-left: 20px;
 }
 
-.idxBox, .cntBox, .titleBox, .dateBox, .writerBox, .contentBox, .commentBox{
+.idxBox, .cntBox, .titleBox, .dateBox, .writerBox, .contentBox, .commentBox, .writeBox, .fileBox, .modalBox{
   width: 100%;
+}
+
+.modalBox{
+  height: 200px;
+}
+
+.card{
+  margin-top: 20px;
 }
 
 .row{

@@ -32,34 +32,24 @@
                   commentsBox.empty();
 
                   data.commentList.forEach(comment => {
-                      let html = "<div class='comment-item'>";
-                      html += "<p><strong>" + comment.commentId + "</strong> (" + comment.commentDate + ")</p>";
-                      html += "<p>" + comment.commentWord + "</p>";
-                      html += "<button type='button' class='commentModifyButton'>수정</button>";
-                      html += "<button type='button' class='commentDeleteButton'>삭제</button>";
-                      html += "</div>";
+                      let html = `<div class='comment-item' data-id="${comment.commentIdx}">`;
+                      html += `<p><strong>${comment.commentId}</strong> (${comment.commentDate})</p>`;
+                      html += `<p class="comment-text">${comment.commentWord}</p>`;
+                      html += `<button type='button' class='commentModifyButton' data-id="${comment.commentIdx}">수정</button>`;
+                      html += `<button type='button' class='commentDeleteButton' data-id="${comment.commentIdx}">삭제</button>`;
+                      html += `</div>`;
 
                       commentsBox.append(html);
-
-                      // 댓글 수정
-                      $(".commentModifyButton").on("click", function () {
-                          console.log("commentModifyButton");
-                          alert("commentModifyButton 누름");
-                      });
-
-                      //댓글 삭제
-                      $(".commentDeleteButton").on("click", function () {
-                          console.log("commentDeleteButton");
-                          alert("commentDeleteButton 누름");
-                      });
                   });
               }
           });
 
+          // /board/home 으로
           $(".homeButton").on("click", function () {
               location.href = "/board/home";
           });
 
+          // 게시글 수정
           $(".modifyButton").on("click", function () {
               $("#method").val("PUT");
 
@@ -68,6 +58,7 @@
               frm.submit();
           });
 
+          // 게시글 삭제
           $(".deleteButton").on("click", function () {
               $("#method").val("DELETE");
 
@@ -79,7 +70,6 @@
           // 댓글 달기
           $(".commentButton").on("click", function () {
               let commentWord = $("#comment_word").val();
-              let boardIdx = $("#boardIdx").val();
 
               $.ajax({
                   url: `/comment/write/${boardIdx}`,
@@ -87,29 +77,102 @@
                   data: {commentWord: commentWord},
                   success: function (data) {
                       if (data.result === "success") {
-                          alert("성공");
+                          alert("댓글 등록 완료");
+                          location.reload();
                       } else {
-                          alert("실패");
+                          alert("댓글 등록 실패");
                       }
-                  }
-                  ,
+                  },
                   error: function () {
                       alert("ajax 통신 중 오류");
                   }
               });
           });
 
-          //댓글 수정
-          $(".commentModifyButton").on("click", function () {
-              console.log("commentModifyButton");
-              alert("commentModifyButton 누름");
+          // 댓글 수정
+          $(document).on("click", ".commentModifyButton", function () {
+              let commentIdx = $(this).data("id");
+              let newCommentWord = prompt("수정할 내용을 입력하세요:");
+              if (!newCommentWord) return;
+
+              $.ajax({
+                  url: "/comment/modify",
+                  type: "put",
+                  data: {newCommentWord: newCommentWord, commentIdx: commentIdx},
+                  success: function (data) {
+                      alert("댓글 수정 완료");
+                      location.reload();
+                  },
+                  error: function () {
+                      alert("ajax 통신 중 오류");
+                  }
+              });
           });
 
           //댓글 삭제
-          $(".commentDeleteButton").on("click", function () {
-              console.log("commentDeleteButton");
-              alert("commentDeleteButton 누름");
+          $(document).on("click", ".commentDeleteButton", function () {
+              let commentIdx = $(this).data("id");
+              if (!confirm("댓글을 삭제하시겠습니까?")) return;
+
+              $.ajax({
+                  url: "/comment/delete",
+                  type: "delete",
+                  data: {commentIdx: commentIdx},
+                  success: function (data) {
+                      alert("댓글 삭제 완료");
+                      location.reload();
+                  },
+                  error: function () {
+                      alert("ajax 통신 중 오류");
+                  }
+              });
           });
+
+          //첨부파일 보기
+          // 모든 첨부파일이 다 나오긴 하는데 이 이상 손을 못대겠어요
+          $.ajax({
+              url: `/file/list/${boardIdx}`,
+              type: "get",
+              success: function (data) {
+                  let fileBox = $(".fileBox");
+                  fileBox.empty();
+
+                  if (data.length === 0) {
+                      fileBox.append("<p>첨부 파일 없음</p>");
+                  } else {
+                      data.forEach(file => {
+                          let fileHtml = `<div class="file-item">`;
+                          fileHtml += `<a href="/file/view/${file.fileName}" class="btn btn-link">${file.fileName}</a>`;
+                          fileHtml += `</div>`;
+                          fileBox.append(fileHtml);
+                      });
+                  }
+              },
+              error: function () {
+                  alert("파일 목록을 불러오는 중 오류 발생");
+              }
+          });
+
+          //첨부파일 삭제
+          // $.ajax({
+          //     url: "/file/remove/${fileName}",
+          //     type: "delete",
+          //     success: function (data) {
+          //         let fileBox = $(".fileBox");
+          //         fileBox.empty();
+          //
+          //         data.forEach(file => {
+          //             let fileHtml = `<div class="file-item">`;
+          //             fileHtml += `<a href="/file/view/${file.fileName}" class="btn btn-link">${file.fileName}</a>`;
+          //             fileHtml += `</div>`;
+          //             fileBox.append(fileHtml);
+          //         });
+          //     },
+          //     error: function () {
+          //         alert("파일 목록을 불러오는 중 오류 발생");
+          //     }
+          // });
+
       });
   </script>
 </head>
@@ -176,6 +239,11 @@
 
         <div class="row"></div>
 
+        <div class="fileBox"></div>
+
+        <div class="row"></div>
+
+
         <!--댓글 작성-->
         <div class="commentBox">
           <span>댓글</span>
@@ -188,29 +256,30 @@
         <!--지금까지 작성한 댓글들 보기-->
         <div class="commentsBox">
         </div>
+      </div>
 
-        <!--버튼들-->
-        <div class="buttonBox">
-          <button type="button" class="homeButton">
-            <i class="fa-solid fa-note-sticky"></i>
-            <p>메인<br>으로</p>
-          </button>
+      <br>
+      <!--버튼들-->
+      <div class="buttonBox">
+        <button type="button" class="homeButton">
+          <i class="fa-solid fa-note-sticky"></i>
+          <p>메인<br>으로</p>
+        </button>
 
-          <button type="button" class="modifyButton">
-            <i class="fa-solid fa-eraser"></i>
-            <p>수정</p>
-          </button>
+        <button type="button" class="modifyButton">
+          <i class="fa-solid fa-eraser"></i>
+          <p>수정</p>
+        </button>
 
-          <button type="button" class="deleteButton">
-            <i class="fa-solid fa-trash"></i>
-            <p>삭제</p>
-          </button>
+        <button type="button" class="deleteButton">
+          <i class="fa-solid fa-trash"></i>
+          <p>삭제</p>
+        </button>
 
-          <button type="button" class="commentButton">
-            <i class="fa-solid fa-comments"></i>
-            <p>댓글<br>등록</p>
-          </button>
-        </div>
+        <button type="button" class="commentButton">
+          <i class="fa-solid fa-comments"></i>
+          <p>댓글<br>등록</p>
+        </button>
       </div>
     </form>
 

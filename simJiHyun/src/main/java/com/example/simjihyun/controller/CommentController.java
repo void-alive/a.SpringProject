@@ -38,7 +38,7 @@ public class CommentController {
     comment.setCommentId(memberId);
     comment.setCommentWord(commentWord);
 
-    List<SpringComment> commentList = commentService.save(boardIdx,comment);
+    List<SpringComment> commentList = commentService.save(boardIdx, comment);
     Map<String, Object> result = new HashMap<>();
     result.put("result", "success");
     result.put("commentList", commentList);
@@ -55,20 +55,27 @@ public class CommentController {
     return result;
   }
 
-//  댓글 수정
-  @PostMapping("/list")
-  public void modifyComments(@RequestParam("commentWord") String commentWord,
+  //  댓글 수정
+  @PutMapping("/modify")
+  public Object modifyComments(@RequestParam("newCommentWord") String newCommentWord,
                              @RequestParam("commentIdx") long commentIdx,
                              HttpServletRequest request) {
     HttpSession session = request.getSession();
-    String memberId = session.getAttribute("memberId").toString();
+    String commentId = session.getAttribute("memberId").toString();
+    System.out.println(commentId);
 
-    commentService.updateComment(commentWord, memberId, commentIdx);
+    commentService.updateComment(newCommentWord, commentId, commentIdx);
+    Map<String,Object> result = new HashMap<>();
+    result.put("result", "success");
+    return result;
   }
 
-//  댓글 삭제
-  @DeleteMapping("/list")
-  public void deleteComments(@RequestParam("commentIdx") long commentIdx) {
+  //  댓글 삭제
+  @DeleteMapping("/delete")
+  public Object deleteComments(@RequestParam("commentIdx") long commentIdx) {
     commentService.deleteComment(commentIdx);
+    Map<String, Object> result = new HashMap<>();
+    result.put("result", "success");
+    return result;
   }
 }
