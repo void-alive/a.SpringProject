@@ -182,22 +182,17 @@
           </div>
 
         </div>
-
         <div class="row"></div>
-
         <div class="contentBox">
           <span>내용</span>
           <textarea name="boardContent" id="boardContent" class="boardContent" placeholder="내용"
                     th:text="${board.boardContent}"></textarea>
         </div>
-
         <div class="row"></div>
-
         <div class="fileBox" th:each="file : ${file}">
-          <a th:href="@{|/file/view/${file.fileNameStored}|}" th:value="${file.fileNameStored}" th:text="${file.fileNameStored}"
+          <a th:href="@{|/file/view/${file.fileNameStored}|}" th:value="${file.fileNameStored}" th:text="${file.fileNameOriginal}"
           class="fileName" id="file_name_stored" name="fileName"></a>
         </div>
-
         <div class="row"></div>
 
 

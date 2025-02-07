@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,37 +22,46 @@ public class FileServiceImpl implements FileService {
   @Value("${file.dir}")
   private String filepath;
 
-  //  등록
+  //  첨부파일 여러개 등록
   @Override
-  public SpringFile saveFile(MultipartFile file) {
-    if (file == null || file.isEmpty()) {
-      return null;
+  public List<SpringFile> saveFiles(MultipartFile[] files) {
+    if (files == null || files.length == 0) {
+      return Collections.emptyList();
     }
 
-    String originalName = file.getOriginalFilename();
-    String extension = originalName.substring(originalName.lastIndexOf("."));
-    String saveName = UUID.randomUUID().toString();
-    saveName = saveName + extension;
-    long size = file.getSize();
+    List<SpringFile> savedFiles = new ArrayList<>();
 
-    try {
-      System.out.println("file path : " + filepath);
-      File localFile = new File(filepath + "/" + saveName);
-      file.transferTo(localFile);
+    for (MultipartFile file : files) {
+      if (file == null || file.isEmpty()) {
+        continue;
+      }
 
-      SpringFile springFile = SpringFile.builder()
-              .fileNameStored(saveName)
-              .fileSize(size)
-              .build();
+      String originalName = file.getOriginalFilename();
+      String extension = originalName.substring(originalName.lastIndexOf("."));
+      String saveName = UUID.randomUUID().toString() + extension;
+      long size = file.getSize();
 
-      System.out.println("파일 저장 완료 : " + localFile.getAbsolutePath());
-      return springFile;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      try {
+        System.out.println("file path : " + filepath);
+        File localFile = new File(filepath + "/" + saveName);
+        file.transferTo(localFile);
+
+        SpringFile springFile = SpringFile.builder()
+                .fileNameOriginal(originalName)
+                .fileNameStored(saveName)
+                .fileSize(size)
+                .build();
+
+        savedFiles.add(springFile);
+        System.out.println("파일 저장 완료 : " + localFile.getAbsolutePath());
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
+    return savedFiles;
   }
 
-  //파일 엔티티 저장
+  //  파일 엔티티 저장
   @Override
   public void saveFileEntity(SpringFile file) {
     fileRepository.save(file);
@@ -58,9 +69,8 @@ public class FileServiceImpl implements FileService {
 
   //  보기
   @Override
-  public List<SpringFile> findAllFile(long boardIdx){
+  public List<SpringFile> findAllFile(long boardIdx) {
     return fileRepository.findByBoardBoardIdx(boardIdx);
   }
-  //  삭제
 
 }

@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 //@ToString
-public class SpringFile implements Comparable<SpringFile> {
+public class SpringFile{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long fileIdx;
@@ -25,24 +25,12 @@ public class SpringFile implements Comparable<SpringFile> {
   @JsonIgnore
   private SpringBoard board;
 
+  @Column(name = "file_name_original")
+  private String fileNameOriginal;
+
   @Column(name = "file_name_stored")
   private String fileNameStored;
 
   @Column(name = "file_size")
   private long fileSize;
-
-  @Column(name = "upload_member")
-  private String uploadMember;
-
-  @Column
-  private int ord;
-
-  @Override
-  public int compareTo(SpringFile other) {
-    return this.ord - other.ord;
-  }
-
-  public void changeBoard(SpringBoard board) {
-    this.board = board;
-  }
 }

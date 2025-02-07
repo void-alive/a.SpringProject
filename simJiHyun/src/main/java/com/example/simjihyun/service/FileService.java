@@ -8,20 +8,12 @@ import java.util.List;
 
 @Service
 public interface FileService {
-
-  //  등록
-  SpringFile saveFile(MultipartFile file);
+  //  첨부파일 여러개 등록
+  List<SpringFile> saveFiles(MultipartFile[] files);
 
   //  파일 엔티티 저장
   void saveFileEntity(SpringFile savedFile);
 
   //  보기
-//  List<SpringFile> findAllFile();
-
-  //  보기
   List<SpringFile> findAllFile(long boardIdx);
-
-//  보기
-
-//  삭제
 }

@@ -70,21 +70,21 @@ public class BoardController {
   //  쓰기
   @RequestMapping("/write")
   public String write(@ModelAttribute SpringBoard board,
-                      @RequestParam(value = "files", required = false) MultipartFile files,
+                      @RequestParam(value = "files", required = false) MultipartFile[] files,
                       HttpServletRequest request) throws Exception {
     HttpSession session = request.getSession();
-//    세션에서 아이디 가져와서 설정하기
     String memberId = (String) session.getAttribute("memberId");
     board.setBoardWriter(memberId);
 
     SpringBoard saveBoard = boardService.saveBoard(board);
 
-    if(files!=null && !files.isEmpty()){
-      SpringFile savedFile = fileService.saveFile(files);
-      savedFile.setBoard(saveBoard);
-      fileService.saveFileEntity(savedFile);
+    if (files != null && files.length > 0) {
+      List<SpringFile> savedFiles = fileService.saveFiles(files);
+      for (SpringFile savedFile : savedFiles) {
+        savedFile.setBoard(saveBoard);
+        fileService.saveFileEntity(savedFile);
+      }
     }
-
     return "redirect:/board/home";
   }
 }

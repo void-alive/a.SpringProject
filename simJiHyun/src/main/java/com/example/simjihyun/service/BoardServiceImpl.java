@@ -75,24 +75,4 @@ public class BoardServiceImpl implements BoardService {
     Pageable pageable = PageRequest.of(page, 9, Sort.by(sorts));
     return this.boardRepository.findAll(pageable);
   }
-
-//  @Override
-//  public PageResponseDTO<SpringBoard> list(PageRequestDTO pageRequestDTO) {
-//    String[] types = pageRequestDTO.getTypes();
-//    String keyword = pageRequestDTO.getKeyword();
-//    Pageable pageable = pageRequestDTO.getPageable("bno");
-//
-//    Page<SpringBoard> result = boardRepository.searchAll(types, keyword, pageable);
-//
-//    List<SpringBoard> dtoList = result.getContent().stream()
-//            .map(board -> modelMapper.map(board,SpringBoard.class)).
-//            collect(Collectors.toList());
-//    return PageResponseDTO.<SpringBoard>withAll()
-//            .pageRequestDTO(pageRequestDTO)
-//            .dtoList(dtoList)
-//            .total((int)result.getTotalElements())
-//            .build();
-//    return null;
-//  }
-
 }
