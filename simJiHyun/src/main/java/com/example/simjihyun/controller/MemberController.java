@@ -64,20 +64,26 @@ public class MemberController {
 
   //  회원가입
   @PostMapping("/signUpProcess")
-  public String signUpProcess(SpringMember member) throws Exception {
+  @ResponseBody
+  public Map<String,Object> signUpProcess(@ModelAttribute SpringMember member) throws Exception {
+    Map<String,Object> response = new HashMap<>();
     try {
       memberService.signUp(member);
+      response.put("success",true);
+      response.put("message","회원가입 완료");
     } catch (Exception e) {
       System.out.println(e.getMessage());
+      response.put("success", false);
+      response.put("message", "중복 아이디는 가입이 불가합니다.");
     }
-    return "redirect:/member/first";
+    return response;
   }
 
   //  아이디 중복 확인
   @GetMapping("/isUniqueId")
   @ResponseBody
   public Map<String, Boolean> isUniqueId(@RequestParam("memberId") String memberId) {
-    boolean isUnique = memberService.existsByMemberId(memberId);
+    boolean isUnique = !(memberService.existsByMemberId(memberId));
     Map<String, Boolean> response = new HashMap<>();
     response.put("isUnique", isUnique);
     return response;

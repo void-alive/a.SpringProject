@@ -27,9 +27,9 @@
                   type: "get",
                   data: {memberId: inputId},
                   success: function (data) {
-                      if(data.isUnique){
+                      if (data.isUnique) {
                           alert("사용 가능한 아이디 입니다");
-                      } else{
+                      } else {
                           alert("중복 아이디 입니다");
                       }
                   },
@@ -38,6 +38,38 @@
                   }
               });
           });
+
+          // 회원가입 버튼 클릭 시 서버에서 전달된 메시지를 확인하여 alert 띄우기
+          $(".signUpButton").on("click", function (event) {
+              event.preventDefault(); // 기본 폼 제출 방지
+
+              let formData = $(".login").serialize(); // 폼 데이터 가져오기
+
+              $.ajax({
+                  url: "/member/signUpProcess",
+                  type: "post",
+                  data: formData,
+                  success: function (response) {
+                      if (response.message) {
+                          alert(response.message);
+                          if (response.success) {
+                              window.location.href = "/member/first"; // 성공하면 리다이렉트
+                          }
+                      } else {
+                          window.location.href = "/member/first"; // 기본 성공 시 리다이렉트
+                      }
+                  },
+                  error: function () {
+                      alert("회원가입 중 오류 발생");
+                  }
+              });
+          });
+
+          // 서버에서 전달된 메시지를 alert으로 띄우기
+          let message = "[[${message}]]"; // Spring Model에서 전달된 메시지
+          if (message && message !== "null") {
+              alert(message);
+          }
       });
   </script>
 </head>
