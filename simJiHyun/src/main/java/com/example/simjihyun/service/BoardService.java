@@ -6,19 +6,15 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface BoardService {
-
-  List<SpringBoard> query() throws Exception;
-
   //  상세
   SpringBoard selectBoardDetail(Long boardIdx);
 
+  //  삭제
   void deleteBoard(Long boardIdx);
 
+  //  글쓰기
   SpringBoard saveBoard(SpringBoard board);
 
   //  페이징
   Page<SpringBoard> getList(int page);
-
-  //  첨부파일
-//  PageResponseDTO<SpringBoard> list(PageRequestDTO pageRequestDTO);
 }

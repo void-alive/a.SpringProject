@@ -17,6 +17,8 @@ public interface CommentRepository extends JpaRepository<SpringComment, Long> {
   List<SpringComment> findByBoardBoardIdxOrderByCommentDateDesc(Long boardIdx);
 
   //  수정
+//  SpringComment 의 commentId 와 commentIdx 를 기준으로 검색해
+//  해당 아이디와 댓글 번호에 해당하는 댓글을 newCommentWord 로 수정함
   @Transactional
   @Modifying
   @Query("UPDATE SpringComment sc SET sc.commentWord = :newCommentWord " +

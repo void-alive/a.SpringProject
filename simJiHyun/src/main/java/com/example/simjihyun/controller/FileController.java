@@ -41,28 +41,4 @@ public class FileController {
     }
     return ResponseEntity.ok().headers(headers).body(resource);
   }
-
-  //  삭제
-//  @DeleteMapping("/remove/{fileName}")
-//  public Map<String, Boolean> removeFile(@PathVariable("fileName") String fileName) {
-//    Resource resource = new FileSystemResource(filepath + File.separator + fileName);
-//    String resourceName = resource.getFilename();
-//
-//    Map<String, Boolean> resultMap = new HashMap<>();
-//    boolean removed = false;
-//
-//    try {
-//      String contentType = Files.probeContentType(resource.getFile().toPath());
-//      removed = resource.getFile().delete();
-//
-//      if (contentType.startsWith("image")) {
-//        File thumbFile = new File(filepath + File.separator + "s_" + fileName);
-//        thumbFile.delete();
-//      }
-//    } catch (IOException e) {
-//      System.out.println(e.getMessage());
-//    }
-//    resultMap.put("removed", removed);
-//    return resultMap;
-//  }
 }

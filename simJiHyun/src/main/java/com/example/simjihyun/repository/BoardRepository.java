@@ -14,10 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<SpringBoard, Long> {
-  //  게시물 리스트
-  @Query("select s from SpringBoard as s")
-  List<SpringBoard> querySelectAll();
-
-  //  게시물 페이지
+  //  게시물을 전부 다 찾아서 페이징 기능을 넣음
   Page<SpringBoard> findAll(Pageable pageable);
 }

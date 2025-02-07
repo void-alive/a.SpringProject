@@ -25,27 +25,34 @@ public class FileServiceImpl implements FileService {
   //  첨부파일 여러개 등록
   @Override
   public List<SpringFile> saveFiles(MultipartFile[] files) {
+//    files 가 null 이거나 길이가 0이면 Collections 의 emptyList() 를 반환함.
     if (files == null || files.length == 0) {
       return Collections.emptyList();
     }
 
+//    SpringFile 타입의 List 를 savedFiles 라는 이름으로 부르기로 함
     List<SpringFile> savedFiles = new ArrayList<>();
 
+//    file 이 없거나 비었다면 넘어감
     for (MultipartFile file : files) {
       if (file == null || file.isEmpty()) {
         continue;
       }
 
+//      . 이후의 값을 extension 으로 저장함
+//      이후 saveName 을 랜덤값과 extension 을 더해서 저장함
       String originalName = file.getOriginalFilename();
       String extension = originalName.substring(originalName.lastIndexOf("."));
-      String saveName = UUID.randomUUID().toString() + extension;
+      String saveName = UUID.randomUUID() + extension;
       long size = file.getSize();
 
       try {
+//        파일의 경로와 이름을 설정하고 실제 파일로 저장
         System.out.println("file path : " + filepath);
         File localFile = new File(filepath + "/" + saveName);
         file.transferTo(localFile);
 
+//        springFile 에 원본 파일명, 저장된 파일명, 파일크기를 넣고 build 함
         SpringFile springFile = SpringFile.builder()
                 .fileNameOriginal(originalName)
                 .fileNameStored(saveName)

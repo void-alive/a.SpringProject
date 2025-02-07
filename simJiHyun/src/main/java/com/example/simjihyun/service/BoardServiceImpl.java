@@ -19,37 +19,25 @@ public class BoardServiceImpl implements BoardService {
   @Autowired
   private BoardRepository boardRepository;
 
-  //  리스트
-  @Override
-  public List<SpringBoard> query() throws Exception {
-    List<SpringBoard> query1 = boardRepository.querySelectAll();
-
-    if (query1 != null) {
-      for (SpringBoard board : query1) {
-        System.out.println(board.getBoardIdx());
-        System.out.println(board.getBoardTitle());
-        System.out.println(board.getBoardContent());
-        System.out.println(board.getBoardWriter());
-        System.out.println(board.getBoardDate());
-        System.out.println(board.getHitCnt());
-      }
-    } else {
-      System.out.println("null");
-    }
-    return query1;
-  }
-
   //  상세
   @Override
   public SpringBoard selectBoardDetail(Long boardIdx) {
     Optional<SpringBoard> optional = boardRepository.findById(boardIdx);
 
+/*  optional : null 값이 올 수 있는 값을 감싸는 wrapper 클래스
+      값이 null 이더라도 바로 nullPointerException 이 발생하지 않음.
+      .isPresent : optional 객체가 값을 가지고 있다면 true, 없으면 false
+      .of() : 값이 절대로 Null 이 아님. Null 이면 NullPointerException 발생
+      .ofNullable() : 값이 Null 일수도, 아닐 수도 있음
+    값을 가지고 있으므로 객체를 가져오고, 조회수를 1 늘림.
+    변경된 값을 저장해서 board 객체를 반환함*/
     if (optional.isPresent()) {
       SpringBoard board = optional.get();
       board.setHitCnt(board.getHitCnt() + 1);
       boardRepository.save(board);
       return board;
     } else {
+//      없으면 NullPointerException() 발생
       throw new NullPointerException();
     }
   }
@@ -72,6 +60,7 @@ public class BoardServiceImpl implements BoardService {
   public Page<SpringBoard> getList(int page) {
     List<Sort.Order> sorts = new ArrayList<>();
     sorts.add(Sort.Order.desc("boardIdx"));
+//    boardIdx 를 기준으로 내림차순 처리함. 한 페이지의 최대 페이지 수는 9개로
     Pageable pageable = PageRequest.of(page, 9, Sort.by(sorts));
     return this.boardRepository.findAll(pageable);
   }

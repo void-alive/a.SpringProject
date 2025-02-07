@@ -34,28 +34,6 @@ public class DatabaseConfiguration {
     return dataSource;
   }
 
-  //  MyBatis 설정
-  @Bean
-  public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-    SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-    sqlSessionFactoryBean.setDataSource(dataSource());
-    sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources(
-            "classpath:/sql/**/sql-*.xml"));
-    sqlSessionFactoryBean.setConfiguration(mybatisConfig());
-    return sqlSessionFactoryBean.getObject();
-  }
-
-  @Bean
-  public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-    return new SqlSessionTemplate(sqlSessionFactory);
-  }
-
-  @Bean
-  @ConfigurationProperties(prefix = "mybatis.configuration")
-  public org.apache.ibatis.session.Configuration mybatisConfig() {
-    return new org.apache.ibatis.session.Configuration();
-  }
-
 //  jpa 설정
   @Bean
   @ConfigurationProperties(prefix = "spring.jpa")

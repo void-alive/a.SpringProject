@@ -16,9 +16,6 @@
   <link rel="stylesheet" th:href="@{/css/layout/noteSprings.css}">
   <link rel="stylesheet" th:href="@{/css/board/boardDetail.css}">
   <link rel="stylesheet" th:href="@{/css/layout/bookMark.css}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
   <script>
       $(document).ready(function () {
           let boardIdx = $("#boardIdx").val();
@@ -28,6 +25,10 @@
               url: `/comment/list/${boardIdx}`,
               type: "get",
               success: function (data) {
+                  // commentsBox id를 가지고 있는 객체를 commentsBox 라는 이름으로 지정함.
+                  // commentsBox 를 비우고 commentList 를 comment 라고 불러서
+                  // comment 의 값들(idx, id, commentDate) 등을 가져옴
+                  // 이후 append() 함수를 통해 화면에 출력함
                   let commentsBox = $(".commentsBox");
                   commentsBox.empty();
 
@@ -76,6 +77,8 @@
                   type: "post",
                   data: {commentWord: commentWord},
                   success: function (data) {
+                      // 내가 가져온 result 가 "success" 면 댓글 등록 완료 알람을 울리고 새로고침
+                      // 아니면 "댓글 등록 실패" 알람 출력
                       if (data.result === "success") {
                           alert("댓글 등록 완료");
                           location.reload();
@@ -91,15 +94,17 @@
 
           // 댓글 수정
           $(document).on("click", ".commentModifyButton", function () {
+              // 입력한 내용이 없다면 그냥 return
               let commentIdx = $(this).data("id");
               let newCommentWord = prompt("수정할 내용을 입력하세요:");
               if (!newCommentWord) return;
 
+              // 입력한 내용이 있으면 실행
               $.ajax({
                   url: "/comment/modify",
                   type: "put",
                   data: {newCommentWord: newCommentWord, commentIdx: commentIdx},
-                  success: function (data) {
+                  success: function () {
                       alert("댓글 수정 완료");
                       location.reload();
                   },
@@ -112,13 +117,15 @@
           //댓글 삭제
           $(document).on("click", ".commentDeleteButton", function () {
               let commentIdx = $(this).data("id");
+              // 댓글을 삭제하시겠습니까? 에서 아니오 를 누르면 return
               if (!confirm("댓글을 삭제하시겠습니까?")) return;
 
+              // 예 를 누르면 실행
               $.ajax({
                   url: "/comment/delete",
                   type: "delete",
                   data: {commentIdx: commentIdx},
-                  success: function (data) {
+                  success: function () {
                       alert("댓글 삭제 완료");
                       location.reload();
                   },
