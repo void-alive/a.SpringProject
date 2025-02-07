@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,7 +27,10 @@ public class FileServiceImpl implements FileService {
       return null;
     }
 
+    String originalName = file.getOriginalFilename();
+    String extension = originalName.substring(originalName.lastIndexOf("."));
     String saveName = UUID.randomUUID().toString();
+    saveName = saveName + extension;
     long size = file.getSize();
 
     try {
@@ -53,7 +57,10 @@ public class FileServiceImpl implements FileService {
   }
 
   //  보기
-
+  @Override
+  public List<SpringFile> findAllFile(long boardIdx){
+    return fileRepository.findByBoardBoardIdx(boardIdx);
+  }
   //  삭제
 
 }

@@ -41,7 +41,9 @@ public class BoardController {
   public ModelAndView detail(@PathVariable("boardIdx") Long boardIdx) throws Exception {
     ModelAndView model = new ModelAndView("/board/detail");
     SpringBoard board = boardService.selectBoardDetail(boardIdx);
+    List<SpringFile> file = fileService.findAllFile(boardIdx);
     model.addObject("board", board);
+    model.addObject("file", file);
     return model;
   }
 
@@ -82,6 +84,7 @@ public class BoardController {
       savedFile.setBoard(saveBoard);
       fileService.saveFileEntity(savedFile);
     }
+
     return "redirect:/board/home";
   }
 }

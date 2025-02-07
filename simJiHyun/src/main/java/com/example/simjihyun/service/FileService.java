@@ -4,6 +4,8 @@ import com.example.simjihyun.entity.SpringFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 public interface FileService {
 
@@ -12,6 +14,12 @@ public interface FileService {
 
   //  파일 엔티티 저장
   void saveFileEntity(SpringFile savedFile);
+
+  //  보기
+//  List<SpringFile> findAllFile();
+
+  //  보기
+  List<SpringFile> findAllFile(long boardIdx);
 
 //  보기
 

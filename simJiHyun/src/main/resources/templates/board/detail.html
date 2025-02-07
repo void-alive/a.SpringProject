@@ -127,52 +127,6 @@
                   }
               });
           });
-
-          //첨부파일 보기
-          // 모든 첨부파일이 다 나오긴 하는데 이 이상 손을 못대겠어요
-          $.ajax({
-              url: `/file/list/${boardIdx}`,
-              type: "get",
-              success: function (data) {
-                  let fileBox = $(".fileBox");
-                  fileBox.empty();
-
-                  if (data.length === 0) {
-                      fileBox.append("<p>첨부 파일 없음</p>");
-                  } else {
-                      data.forEach(file => {
-                          let fileHtml = `<div class="file-item">`;
-                          fileHtml += `<a href="/file/view/${file.fileName}" class="btn btn-link">${file.fileName}</a>`;
-                          fileHtml += `</div>`;
-                          fileBox.append(fileHtml);
-                      });
-                  }
-              },
-              error: function () {
-                  alert("파일 목록을 불러오는 중 오류 발생");
-              }
-          });
-
-          //첨부파일 삭제
-          // $.ajax({
-          //     url: "/file/remove/${fileName}",
-          //     type: "delete",
-          //     success: function (data) {
-          //         let fileBox = $(".fileBox");
-          //         fileBox.empty();
-          //
-          //         data.forEach(file => {
-          //             let fileHtml = `<div class="file-item">`;
-          //             fileHtml += `<a href="/file/view/${file.fileName}" class="btn btn-link">${file.fileName}</a>`;
-          //             fileHtml += `</div>`;
-          //             fileBox.append(fileHtml);
-          //         });
-          //     },
-          //     error: function () {
-          //         alert("파일 목록을 불러오는 중 오류 발생");
-          //     }
-          // });
-
       });
   </script>
 </head>
@@ -239,7 +193,10 @@
 
         <div class="row"></div>
 
-        <div class="fileBox"></div>
+        <div class="fileBox" th:each="file : ${file}">
+          <a th:href="@{|/file/view/${file.fileNameStored}|}" th:value="${file.fileNameStored}" th:text="${file.fileNameStored}"
+          class="fileName" id="file_name_stored" name="fileName"></a>
+        </div>
 
         <div class="row"></div>
 
