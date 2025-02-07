@@ -65,12 +65,12 @@ public class MemberController {
   //  회원가입
   @PostMapping("/signUpProcess")
   @ResponseBody
-  public Map<String,Object> signUpProcess(@ModelAttribute SpringMember member) throws Exception {
-    Map<String,Object> response = new HashMap<>();
+  public Map<String, Object> signUpProcess(@ModelAttribute SpringMember member) throws Exception {
+    Map<String, Object> response = new HashMap<>();
     try {
       memberService.signUp(member);
-      response.put("success",true);
-      response.put("message","회원가입 완료");
+      response.put("success", true);
+      response.put("message", "회원가입 완료");
     } catch (Exception e) {
       System.out.println(e.getMessage());
       response.put("success", false);
@@ -104,6 +104,27 @@ public class MemberController {
     return "redirect:/member/first";
   }
 
+  //  비밀번호 확인
+  @GetMapping("/checkPassword")
+  @ResponseBody
+  public Map<String, Object> checkPassWord(@RequestParam("checkPassWord") String checkPassWord, HttpServletRequest request) {
+    HttpSession session = request.getSession();
+    String sessionPass = (String) session.getAttribute("memberPass");
+    Map<String, Object> response = new HashMap<>();
+
+    System.out.println("세션 : " + sessionPass);
+    System.out.println("비밀번호 : " + checkPassWord);
+
+    if (sessionPass != null && sessionPass.equals(checkPassWord)) {
+      response.put("success", true);
+      response.put("message", "비밀번호 일치");
+    } else {
+      response.put("fail", false);
+      response.put("message", "비밀번호 불일치");
+    }
+    return response;
+  }
+
   //  마이페이지
   @RequestMapping("/myPage/{memberId}")
   public ModelAndView myPage(HttpServletRequest request) throws Exception {
@@ -111,9 +132,11 @@ public class MemberController {
 
     HttpSession session = request.getSession();
     String memberId = (String) session.getAttribute("memberId");
+    String memberPass = (String) session.getAttribute("memberPass");
 
     SpringMember member = memberService.selectMemberDetail(memberId);
     model.addObject("member", member);
+    model.addObject("memberPass", memberPass);
     return model;
   }
 

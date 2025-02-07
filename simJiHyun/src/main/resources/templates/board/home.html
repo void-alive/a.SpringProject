@@ -24,6 +24,32 @@
           $(".writeButton").on("click", function () {
               location.href = "/board/write"
           });
+
+          $(".myBookmark").on("click", function () {
+              const passWord = prompt("비밀번호를 입력해주세요");
+              console.log(passWord);
+
+              $.ajax({
+                  url: "/member/checkPassword",
+                  type: "get",
+                  data: {"checkPassWord": passWord},
+                  success: function (response) {
+                      console.log(response);
+                      alert(response.message);
+                      if (response.success) {
+                          window.location.href = "/member/myPage/" + sessionStorage.getItem("memberId");
+                      } else {
+                          window.location.href = "/board/home";
+                      }
+                  },
+                  error: function (xhr, status, error) {
+                      console.log("에러 상태 : ", status);
+                      console.log("에러 메세지 : ", error);
+                      alert("서버 오류" + error);
+                      location.href = "/board/home";
+                  }
+              });
+          });
       });
   </script>
 </head>
