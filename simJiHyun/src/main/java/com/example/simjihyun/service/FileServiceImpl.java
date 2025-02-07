@@ -52,13 +52,14 @@ public class FileServiceImpl implements FileService {
         File localFile = new File(filepath + "/" + saveName);
         file.transferTo(localFile);
 
-//        springFile 에 원본 파일명, 저장된 파일명, 파일크기를 넣고 build 함
+//        springFile 에 원본 파일명, 저장된 파일명, 파일크기를 넣고 만든다
         SpringFile springFile = SpringFile.builder()
                 .fileNameOriginal(originalName)
                 .fileNameStored(saveName)
                 .fileSize(size)
                 .build();
 
+//        savedFiled List 에 springFile 을 넣고 절대 경로를 얻는다
         savedFiles.add(springFile);
         System.out.println("파일 저장 완료 : " + localFile.getAbsolutePath());
       } catch (IOException e) {

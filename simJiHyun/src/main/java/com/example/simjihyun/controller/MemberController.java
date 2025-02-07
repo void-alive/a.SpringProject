@@ -49,7 +49,6 @@ public class MemberController {
     }
 
 //  없다면 "아이디 혹은 비밀번호가 틀렸습니다" 를 출력
-//  일단 성공 실패만 가능하게끔 만듦. 시간 나면 알람도 만들것
     else {
       System.out.println("로그인 실패");
       return "redirect:/member/first";
@@ -67,6 +66,8 @@ public class MemberController {
   @ResponseBody
   public Map<String, Object> signUpProcess(@ModelAttribute SpringMember member) throws Exception {
     Map<String, Object> response = new HashMap<>();
+//    memberService 의 singUp 을 실행해서 성공하면 "success" 에 true, "message" 에 "회원가입 완료"를 넣는다
+//    실패하면 오류 메세지를 출력하고 "success" 에 false, "message" 에 "중복 아이디..." 를 넣는다
     try {
       memberService.signUp(member);
       response.put("success", true);
@@ -83,6 +84,7 @@ public class MemberController {
   @GetMapping("/isUniqueId")
   @ResponseBody
   public Map<String, Boolean> isUniqueId(@RequestParam("memberId") String memberId) {
+//    존재하는 아이디면 false, 없는 아이디면 true 를 반환한다
     boolean isUnique = !(memberService.existsByMemberId(memberId));
     Map<String, Boolean> response = new HashMap<>();
     response.put("isUnique", isUnique);
@@ -130,10 +132,12 @@ public class MemberController {
   public ModelAndView myPage(HttpServletRequest request) throws Exception {
     ModelAndView model = new ModelAndView("/member/myPage");
 
+//    세션에서 id 와 패스워드를 가져온다.
     HttpSession session = request.getSession();
     String memberId = (String) session.getAttribute("memberId");
     String memberPass = (String) session.getAttribute("memberPass");
 
+//    나머지는 memberService 의 selectMemberDetail 함수를 실행한다. 
     SpringMember member = memberService.selectMemberDetail(memberId);
     model.addObject("member", member);
     model.addObject("memberPass", memberPass);
@@ -148,7 +152,7 @@ public class MemberController {
                     @RequestParam("memberPass") String memberPass,
                     @RequestParam("memberName") String memberName,
                     @RequestParam("memberEmail") String memberEmail) throws Exception {
-
+//    세션에 등록된 아이디를 기준으로 memberService 의 updateMember 함수를 실행한다
     HttpSession session = request.getSession();
     String originalMemberId = (String) session.getAttribute("memberId");
 
@@ -160,6 +164,7 @@ public class MemberController {
   @Transactional
   @DeleteMapping("/myPage/{memberId}")
   public String delete(@PathVariable("memberId") String memberId) throws Exception {
+//    회원을 삭제한다
     System.out.println("삭제할 회원 ID: " + memberId);
     memberService.deleteMember(memberId);
     return "redirect:/member/first";
